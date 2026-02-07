@@ -1,19 +1,24 @@
-export async function up(knex) {
-  return knex.schema.createTable("attendance", (table) => {
-    table.increments("id").primary();
+import type { Knex } from 'knex';
+
+export async function up(knex: Knex) {
+  return knex.schema.createTable('attendance', (table) => {
+    table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
+
     table
-      .integer("employee_id")
-      .references("id")
-      .inTable("employees")
-      .onDelete("CASCADE");
+      .uuid('employee_id')
+      .notNullable()
+      .references('id')
+      .inTable('employees')
+      .onDelete('CASCADE');
 
-    table.date("date").notNullable();
-    table.time("check_in_time").notNullable();
+    table.date('date').notNullable();
+    table.time('check_in_time').notNullable();
 
-    table.unique(["employee_id", "date"]);
+    table.unique(['employee_id', 'date']);
+    table.index(['employee_id']);
   });
 }
 
-export async function down(knex) {
-  return knex.schema.dropTable("attendance");
+export async function down(knex: Knex) {
+  return knex.schema.dropTable('attendance');
 }
