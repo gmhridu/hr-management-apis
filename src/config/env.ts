@@ -15,6 +15,11 @@ const envSchema = Joi.object({
   DB_PASSWORD: Joi.string().required(),
   DB_SSL: Joi.string(),
   DB_CHANNELBINDING: Joi.string().valid('prefer', 'require', 'disable').default('require'),
+
+  SALT_ROUNDS: Joi.number().default(10),
+
+  JWT_SECRET: Joi.string().required(),
+  JWT_EXPIRES_IN: Joi.string().default('1d'),
 })
   .unknown()
   .required();
@@ -43,4 +48,9 @@ export const env = {
   dbPassword: envVars.DB_PASSWORD,
   dbSsl: envVars.DB_SSL,
   dbChannelBinding: envVars.DB_CHANNELBINDING,
+
+  saltRounds: Number(envVars.SALT_ROUNDS),
+
+  jwtSecret: envVars.JWT_SECRET,
+  jwtExpiresIn: envVars.JWT_EXPIRES_IN,
 } as const;
