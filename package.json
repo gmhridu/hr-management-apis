@@ -13,8 +13,13 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "type-check": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate:make": "knex --knexfile knexfile.cjs migrate:make",
+    "migrate:latest": "knex --knexfile knexfile.cjs migrate:latest",
+    "migrate:rollback": "knex --knexfile knexfile.cjs migrate:rollback",
+    "migrate:status": "knex --knexfile knexfile.cjs migrate:status"
   },
+  "knexfile": "knexfile.cjs",
   "keywords": [
     "hr",
     "management",
@@ -38,6 +43,7 @@
     "knex": "^3.1.0",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "pg": "^8.18.0",
     "pg-query-stream": "^4.12.0"
   },
