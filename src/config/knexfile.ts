@@ -1,5 +1,5 @@
-import { env } from '@/config/env';
 import { Knex } from 'knex';
+import { env } from './env';
 
 export const config: Knex.Config = {
   client: 'pg',
@@ -12,6 +12,9 @@ export const config: Knex.Config = {
     max: 10,
   },
   migrations: {
-    directory: './src/database/migrations',
+    directory: '../database/migrations',
+  },
+  seeds: {
+    directory: '../database/seeds',
   },
 };
