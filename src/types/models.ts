@@ -55,6 +55,43 @@ export interface EmployeeUpdate {
   photo_path?: string | null;
 }
 
+export interface Attendance {
+  id: string;
+  employee_id: string;
+  date: Date;
+  check_in_time: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface AttendanceCreate {
+  employee_id: string;
+  date: string;
+  check_in_time: string;
+}
+
+export interface AttendanceUpdate {
+  check_in_time?: string;
+}
+
+export interface AttendanceResponse {
+  id: number;
+  employee_id: string;
+  date: string;
+  check_in_time: string;
+}
+
+export interface AttendanceWithEmployee extends Attendance {
+  employee_name: string;
+}
+
+export interface MonthlyAttendanceReport {
+  employee_id: string;
+  name: string;
+  days_present: number;
+  times_late: number;
+}
+
 export interface PaginationParams {
   page?: number;
   limit?: number;
@@ -72,4 +109,11 @@ export interface PaginatedResponse<T> {
 
 export interface EmployeeFilters extends PaginationParams {
   search?: string;
+}
+
+export interface AttendanceFilters extends PaginationParams {
+  employee_id?: string;
+  date?: string;
+  from?: string;
+  to?: string;
 }
