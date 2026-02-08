@@ -1,7 +1,7 @@
 import { env } from '@/config/env';
+import { MulterError } from 'multer';
 import type { Request, Response, NextFunction } from 'express';
 import { HttpException } from '@/utils/exceptions/common/http.exception';
-import { MulterError } from 'multer';
 
 export interface ErrorResponse {
   success: false;
