@@ -4,7 +4,7 @@
 		"name": "Hr-Management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "34420723",
-		"_collection_link": "https://icl-finance.postman.co/workspace/ICL-FINANCE-Workspace~f8a958a0-3f57-418f-8032-b11afee4c174/collection/34420723-14ccd60f-7907-4bc0-9e44-72022cdbea72?action=share&source=collection_link&creator=34420723"
+		"_collection_link": "https://icl-finance.postman.co/workspace/hridoy~5313fafe-1dc4-4759-9a80-0ded00f56098/collection/34420723-14ccd60f-7907-4bc0-9e44-72022cdbea72?action=share&source=collection_link&creator=34420723"
 	},
 	"item": [
 		{
@@ -13,6 +13,16 @@
 				{
 					"name": "Register",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -46,6 +56,16 @@
 				{
 					"name": "Login",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1209,14 +1229,14 @@
 							"raw": "{\n    \"employee_id\": \"8a52cb33-4f4c-4f4b-b9a0-3d9320680498\",\n    \"date\": \"2026-02-07\",\n    \"check_in_time\": \"09:30:00\"\n}"
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/attendance/report/monthly?month=2026-02&employeedId=8a52cb33-4f4c-4f4b-b9a0-3d9320680498",
+							"raw": "{{BASE_URL}}/attendance/reports/attendance?month=2026-02&employeedId=8a52cb33-4f4c-4f4b-b9a0-3d9320680498",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"attendance",
-								"report",
-								"monthly"
+								"reports",
+								"attendance"
 							],
 							"query": [
 								{
