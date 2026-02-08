@@ -253,7 +253,7 @@ export class AttendanceController {
   getMonthlyReport = async (req: Request, res: Response): Promise<void> => {
     try {
       const month = req.query.month as string;
-      const employeedId = req.query.employee_id as string;
+      const employeeId = req.query.employee_id as string;
 
       if (!month) {
         res.status(status.BAD_REQUEST).json({
@@ -262,7 +262,7 @@ export class AttendanceController {
         });
       }
 
-      const report = await this.attendanceService.getMonthlyReport(month, employeedId);
+      const report = await this.attendanceService.getMonthlyReport(month, employeeId);
 
       res.status(status.OK).json({
         success: true,
