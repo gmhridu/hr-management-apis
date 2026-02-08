@@ -20,3 +20,56 @@ export interface HrUserResponse {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface Employee {
+  id: string;
+  name: string;
+  age: number;
+  designation: string;
+  hiring_date: Date;
+  date_of_birth: Date;
+  salary: number;
+  photo_path: string | null;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+export interface EmployeeCreate {
+  name: string;
+  age: number;
+  designation: string;
+  hiring_date: Date;
+  date_of_birth: Date;
+  salary: number;
+  photo_path?: string | null;
+}
+
+export interface EmployeeUpdate {
+  name?: string;
+  age?: number;
+  designation?: string;
+  hiring_date?: Date;
+  date_of_birth?: Date;
+  salary?: number;
+  photo_path?: string | null;
+}
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface EmployeeFilters extends PaginationParams {
+  search?: string;
+}

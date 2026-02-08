@@ -1,6 +1,5 @@
 node_modules/
 dist/
-.env
 *.log
 uploads/*
 !uploads/.gitkeep
@@ -9,3 +8,4 @@ coverage/
 *.test.ts
 .vscode/
 .idea/
+config.bat
