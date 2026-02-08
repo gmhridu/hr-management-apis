@@ -20,6 +20,9 @@ const envSchema = Joi.object({
 
   JWT_SECRET: Joi.string().required(),
   JWT_EXPIRES_IN: Joi.string().default('1d'),
+
+  UPLOAD_PATH: Joi.string().default('./uploads'),
+  MAX_FILE_SIZE: Joi.number().default(5242880)
 })
   .unknown()
   .required();
@@ -53,4 +56,7 @@ export const env = {
 
   jwtSecret: envVars.JWT_SECRET,
   jwtExpiresIn: envVars.JWT_EXPIRES_IN,
+
+  uploadPath: envVars.UPLOAD_PATH,
+  maxFileSize: Number(envVars.MAX_FILE_SIZE)
 } as const;
