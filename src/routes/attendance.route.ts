@@ -80,6 +80,14 @@ router.post(
 );
 
 /**
+ * @route get /api/attendance/report/monthly
+ * @desc Get monthly attendance records
+ * @access Private
+ */
+
+router.get('/reports/attendance', ErrorHandler.asyncHandler(attendanceController.getMonthlyReport));
+
+/**
  * @route put /api/attendance/:id
  * @desc Update attendance record by ID
  * @access Private

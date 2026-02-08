@@ -53,9 +53,7 @@ export class AttendanceModel extends BaseModel<Attendance> {
 
   // create attendance record
   async createAttendance(data: AttendanceCreate): Promise<Attendance> {
-    const [attendance] = await this.db(this.tableName)
-      .insert(data)
-      .returning('*');
+    const [attendance] = await this.db(this.tableName).insert(data).returning('*');
 
     return attendance;
   }
@@ -153,31 +151,39 @@ export class AttendanceModel extends BaseModel<Attendance> {
   }
 
   // get monthly attendance report
-  async getMonthlyReport(month: string, employeeId: string): Promise<MonthlyAttendanceReport[]> {
-    // parse month (format: YYYY-MM)
-    const [year, monthNum] = month.split('-');
-    const startDate = `${year}-${monthNum}-01`;
-    const endDate = `${year}-${monthNum}-31`;
+  async getMonthlyReport(month: string, employeeId?: string): Promise<MonthlyAttendanceReport[]> {
+    const [yearStr, monthStr] = month.split('-');
+    const year = Number(yearStr);
+    const monthNum = Number(monthStr);
+
+    const start = new Date(year, monthNum - 1, 1);
+    const end = new Date(year, monthNum, 0); // last day of month
+
+    const startDate = start.toISOString().slice(0, 10);
+    const endDate = end.toISOString().slice(0, 10);
 
     let query = this.db(this.tableName)
       .join('employees', 'attendance.employee_id', 'employees.id')
-      .whereBetween('attendance.date', [startDate, endDate])
+      .whereRaw('DATE(attendance.date) BETWEEN ? AND ?', [startDate, endDate])
       .whereNull('employees.deleted_at');
 
-    // filter by employee if provided
     if (employeeId) {
       query = query.where('attendance.employee_id', employeeId);
     }
 
-    // group by employee and calculate metrics
     const results = await query
       .select(
         'attendance.employee_id',
         'employees.name as employee_name',
-        this.db.raw('COUNT(DISTINCT attendance.date) as days_present'),
-        this.db.raw(
-          "SUM(CASE WHEN attendance.check_in_time > '09:45:00' THEN 1 ELSE 0 END) as times_late"
-        )
+        this.db.raw('COUNT(DISTINCT DATE(attendance.date)) as days_present'),
+        this.db.raw(`
+        SUM(
+          CASE
+            WHEN attendance.check_in_time > '09:45:00' THEN 1
+            ELSE 0
+          END
+        ) as times_late
+      `)
       )
       .groupBy('attendance.employee_id', 'employees.name')
       .orderBy('employees.name', 'asc');
@@ -185,8 +191,8 @@ export class AttendanceModel extends BaseModel<Attendance> {
     return results.map((row: any) => ({
       employee_id: row.employee_id,
       name: row.employee_name,
-      days_present: parseInt(row.days_present, 10),
-      times_late: parseInt(row.times_late, 10),
+      days_present: Number(row.days_present),
+      times_late: Number(row.times_late),
     }));
   }
 
